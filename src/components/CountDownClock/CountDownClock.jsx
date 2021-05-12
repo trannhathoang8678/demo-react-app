@@ -1,9 +1,11 @@
 import React from "react";
 import "./CountDownClock.css";
-const secondToMili = 1000,
-  minuteToMili = secondToMili * 60,
-  hourToMili = minuteToMili * 60,
-  dayToMili = hourToMili * 24;
+const 
+  minuteToSecond =  60,
+  hourToMinute = 60,
+  hourToSecond = minuteToSecond * 60,
+  dayToSecond = hourToSecond * 24,
+  dayToMili = dayToSecond * 1000;
 class CountDownClock extends React.Component {
   constructor(props) {
     super(props);
@@ -39,19 +41,19 @@ class CountDownClock extends React.Component {
             </li>
             <li>
               <span>
-                {Math.floor((this.state.restTime % dayToMili) / hourToMili)}
+                {Math.floor((this.state.restTime % dayToSecond) / hourToSecond)}
               </span>
               Hour
             </li>
             <li>
               <span>
-                {Math.floor((this.state.restTime % hourToMili) / minuteToMili)}
+                {Math.floor(this.state.restTime % dayToSecond / hourToMinute % minuteToSecond)}
               </span>
               Minute
-            </li>
+            </li> 
             <li>
               <span>
-                {Math.floor((this.state.restTime % hourToMili) / minuteToMili)}
+                {(this.state.restTime % minuteToSecond)}
               </span>
               Second
             </li>
