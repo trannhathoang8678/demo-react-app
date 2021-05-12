@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Timer from './components/Timer/Timer.jsx'
-ReactDOM.render(<Timer/>,
+import CountDownClock from './components/CountDownClock/CountDownClock.jsx'
+ReactDOM.render(<CountDownClock/>,
   document.getElementById('root')
 );
 
