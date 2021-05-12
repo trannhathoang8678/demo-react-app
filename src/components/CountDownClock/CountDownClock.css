@@ -1,0 +1,25 @@
+.clock-container {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
+.title {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 4rem;
+}
+.clock-by-unit{
+  text-align: center;
+}
+li {
+  display: inline-block;
+  font-size: 1.5em;
+  list-style-type: none;
+  padding: 1em;
+  text-transform: uppercase;
+}
+
+li span {
+  display: block;
+  font-size: 4.5rem;
+}

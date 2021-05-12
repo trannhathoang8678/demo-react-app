@@ -1,5 +1,5 @@
 import React from "react";
-import "./timer.css";
+import "./CountDownClock.css";
 const secondToMili = 1000,
   minuteToMili = secondToMili * 60,
   hourToMili = minuteToMili * 60,
@@ -30,22 +30,33 @@ class CountDownClock extends React.Component {
   }
   render() {
     return (
-      <div className="CountDownClock">
-        <div className="Title">Countdown to HEAT</div>
-        <ul>
-          <li>
-            <span>{Math.floor(this.state.restTime/dayToMili)}</span>"Day"
-          </li>
-          <li>
-            <span>{Math.floor(this.state.restTime%dayToMili/hourToMili)}</span>"Hour"
-          </li>
-          <li>
-            <span>{Math.floor(this.state.restTime%hourToMili/minuteToMili)}</span>"Hour"
-          </li>
-          <li>
-          <span>{Math.floor(this.state.restTime%hourToMili/minuteToMili)}</span>"Hour"
-          </li>
-        </ul>
+      <div className="clock-container">
+        <div className="title">Countdown to HEAT</div>
+        <div className="clock-by-unit">
+          <ul>
+            <li>
+              <span>{Math.floor(this.state.restTime / dayToMili)}</span>Day
+            </li>
+            <li>
+              <span>
+                {Math.floor((this.state.restTime % dayToMili) / hourToMili)}
+              </span>
+              Hour
+            </li>
+            <li>
+              <span>
+                {Math.floor((this.state.restTime % hourToMili) / minuteToMili)}
+              </span>
+              Minute
+            </li>
+            <li>
+              <span>
+                {Math.floor((this.state.restTime % hourToMili) / minuteToMili)}
+              </span>
+              Second
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
