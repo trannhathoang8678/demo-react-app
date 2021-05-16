@@ -1,35 +1,76 @@
 import React from "react";
 import "./CountDownClock.css";
-const 
-  minuteToSecond =  60,
-  hourToMinute = 60,
-  hourToSecond = minuteToSecond * 60,
-  dayToSecond = hourToSecond * 24,
-  dayToMili = dayToSecond * 1000;
+const currentTime =
+  new Date("5/20/2021, 9:00:00 AM").getTime() - new Date().getTime();
 class CountDownClock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      restTime:
-        new Date("5/15/2021, 9:00:00 AM").getTime() - new Date().getTime(),
+      restTime: 8640000000,
+      days: parseInt(currentTime / (1000 * 60 * 60 * 24)),
+      hours: parseInt((currentTime / (1000 * 60 * 60 * 24)) % 60),
+      minutes: parseInt((currentTime / 1000 / 60) % 60),
+      seconds: parseInt((currentTime / 1000) % 60),
     };
-    this.startTimer();
   }
-  startTimer() {
-    this.timerID = setInterval(() => this.countDown(), 1000);
+  componentDidMount() {
+    this.setTime = setInterval(() => this.loadInfoByHours(), 0.01);
   }
-  turnOffTimer() {
-    clearInterval(this.timerID);
+  componentWillUnmount() {
+    clearInterval(this.setTime);
   }
-  countDown() {
-    if (this.state.restTime === 0) {
-      this.turnOffTimer();
-      return;
-    }
+  loadInfoByHours() {
     this.setState((preState) => {
-      return { restTime: preState.restTime - 1 };
+      if (this.state.restTime < currentTime + 12345678) {
+        this.setState(() => {
+          return {
+            restTime: currentTime,
+          };
+        });
+        clearInterval(this.setTime);
+        this.setTime = setInterval(() => this.loadInfoBySeconds(), 1);
+      }
+      return {
+        restTime: preState.restTime - 12345678,
+        days: parseInt(preState.restTime / (1000 * 60 * 60 * 24)),
+        hours: parseInt((preState.restTime / (1000 * 60 * 60 )) % 24),
+        minutes: parseInt((preState.restTime / 1000 / 60) % 60),
+        seconds: parseInt((preState.restTime / 1000) % 60),
+      };
     });
   }
+  loadInfoBySeconds(){
+    this.setState((preState) => {
+      if (this.state.restTime < currentTime + 12345678) {
+        this.setState(() => {
+          return {
+            restTime: currentTime,
+          };
+        });
+        clearInterval(this.setTime);
+        this.setTime = setInterval(() => this.countDown(), 1000);
+      }
+      return {
+        restTime: preState.restTime - 12345678,
+        days: parseInt(preState.restTime / (1000 * 60 * 60 * 24)),
+        hours: parseInt((preState.restTime / (1000 * 60 * 60 )) % 24),
+        minutes: parseInt((preState.restTime / 1000 / 60) % 60),
+        seconds: parseInt((preState.restTime / 1000) % 60),
+      };
+    });
+}
+  countDown() {
+    this.setState((preState) => {
+      return {
+        restTime: preState.restTime - 1000,
+        days: parseInt(preState.restTime / (1000 * 60 * 60 * 24)),
+        hours: parseInt((preState.restTime / (1000 * 60 * 60 )) % 24),
+        minutes: parseInt((preState.restTime / 1000 / 60) % 60),
+        seconds: parseInt((preState.restTime / 1000) % 60),
+      };
+    });
+  }
+
   render() {
     return (
       <div className="clock-container">
@@ -37,24 +78,18 @@ class CountDownClock extends React.Component {
         <div className="clock-by-unit">
           <ul>
             <li>
-              <span>{Math.floor(this.state.restTime / dayToMili)}</span>Day
+              <span>{this.state.days}</span>Day
             </li>
             <li>
-              <span>
-                {Math.floor((this.state.restTime % dayToSecond) / hourToSecond)}
-              </span>
+              <span>{this.state.hours}</span>
               Hour
             </li>
             <li>
-              <span>
-                {Math.floor(this.state.restTime % dayToSecond / hourToMinute % minuteToSecond)}
-              </span>
+              <span>{this.state.minutes}</span>
               Minute
-            </li> 
+            </li>
             <li>
-              <span>
-                {(this.state.restTime % minuteToSecond)}
-              </span>
+              <span>{this.state.seconds}</span>
               Second
             </li>
           </ul>
